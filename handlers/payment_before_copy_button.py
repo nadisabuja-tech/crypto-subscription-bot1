@@ -40,27 +40,19 @@ async def payment_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if query.data == "trc20":
         await query.message.reply_text(
-        f"🔴 USDT (TRC20)\n\n"
-        f"💰 Amount: {subscription_price} USDT\n\n"
-        f"🏦 Wallet Address:\n"
-        f"`{trc20_wallet}`\n\n"
-        f"📋 Tap and hold the wallet address to copy it.\n\n"
-        f"⚠️ Please send the exact amount to the wallet above.\n\n"
-        f"📸 After completing the payment, please send the payment screenshot for verification.",
-        parse_mode="Markdown",
-    )
+            f"🔴 USDT (TRC20)\n\n"
+            f"💰 Amount: {subscription_price} USDT\n\n"
+            f"🏦 Wallet:\n{trc20_wallet}\n\n"
+            f"📸 Payment করার পরে Screenshot পাঠান।"
+        )
 
     elif query.data == "bep20":
         await query.message.reply_text(
-        f"🟡 USDT (BEP20)\n\n"
-        f"💰 Amount: {subscription_price} USDT\n\n"
-        f"🏦 Wallet Address:\n"
-        f"`{bep20_wallet}`\n\n"
-        f"📋 Tap and hold the wallet address to copy it.\n\n" 
-        f"⚠️ Please send the exact amount to the wallet above.\n\n"
-        f"📸 After completing the payment, please send the payment screenshot for verification.",
-        parse_mode="Markdown",
-    )
+            f"🟡 USDT (BEP20)\n\n"
+            f"💰 Amount: {subscription_price} USDT\n\n"
+            f"🏦 Wallet:\n{bep20_wallet}\n\n"
+            f"📸 Payment করার পরে Screenshot পাঠান।"
+        )
 
 
 async def receive_screenshot(update: Update, context: ContextTypes.DEFAULT_TYPE):

@@ -97,3 +97,61 @@ async def broadcast_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"Sent: {sent}\n"
         f"Failed: {failed}"
     )
+
+async def setprice_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.effective_user.id != ADMIN_ID:
+        return
+
+    if not context.args:
+        await update.message.reply_text("Usage:\n/setprice 10")
+        return
+
+    price = context.args[0]
+
+    cursor.execute(
+        "UPDATE settings SET value=? WHERE key='subscription_price'",
+        (price,),
+    )
+    conn.commit()
+
+    await update.message.reply_text(
+        f"✅ Subscription price updated to {price} USDT"
+    )
+
+
+async def settrc20_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.effective_user.id != ADMIN_ID:
+        return
+
+    if not context.args:
+        await update.message.reply_text("Usage:\n/settrc20 WALLET_ADDRESS")
+        return
+
+    wallet = " ".join(context.args)
+
+    cursor.execute(
+        "UPDATE settings SET value=? WHERE key='trc20_wallet'",
+        (wallet,),
+    )
+    conn.commit()
+
+    await update.message.reply_text("✅ TRC20 wallet updated.")
+
+
+async def setbep20_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.effective_user.id != ADMIN_ID:
+        return
+
+    if not context.args:
+        await update.message.reply_text("Usage:\n/setbep20 WALLET_ADDRESS")
+        return
+
+    wallet = " ".join(context.args)
+
+    cursor.execute(
+        "UPDATE settings SET value=? WHERE key='bep20_wallet'",
+        (wallet,),
+    )
+    conn.commit()
+
+    await update.message.reply_text("✅ BEP20 wallet updated.")

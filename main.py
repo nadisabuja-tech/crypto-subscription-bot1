@@ -16,11 +16,16 @@ from handlers.payment import (
     payment_callback,
     receive_screenshot,
 )
+
 from handlers.admin import (
     admin_panel,
     admin_callback,
     broadcast_command,
+    setprice_command,
+    settrc20_command,
+    setbep20_command,
 )
+
 from handlers.link import (
     ask_link,
     receive_link,
@@ -107,10 +112,12 @@ async def menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def main():
     app = Application.builder().token(TOKEN).build()
-
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("admin", admin_panel))
     app.add_handler(CommandHandler("broadcast", broadcast_command))
+    app.add_handler(CommandHandler("setprice", setprice_command))
+    app.add_handler(CommandHandler("settrc20", settrc20_command))
+    app.add_handler(CommandHandler("setbep20", setbep20_command))
     app.add_handler(
         MessageHandler(filters.PHOTO, receive_screenshot)
     )
