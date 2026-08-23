@@ -3,7 +3,6 @@ import sqlite3
 conn = sqlite3.connect("data/bot.db", check_same_thread=False)
 cursor = conn.cursor()
 
-# Users table
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS users (
     user_id INTEGER PRIMARY KEY,
@@ -19,25 +18,5 @@ try:
 except sqlite3.OperationalError:
     pass
 
-# Settings table
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS settings (
-    key TEXT PRIMARY KEY,
-    value TEXT
-)
-""")
-
-# Default settings
-defaults = {
-    "trc20_wallet": "YOUR_TRC20_WALLET",
-    "bep20_wallet": "YOUR_BEP20_WALLET",
-    "subscription_price": "10",
-}
-
-for key, value in defaults.items():
-    cursor.execute(
-        "INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)",
-        (key, value),
-    )
-
 conn.commit()
+
