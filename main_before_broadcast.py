@@ -19,7 +19,6 @@ from handlers.payment import (
 from handlers.admin import (
     admin_panel,
     admin_callback,
-    broadcast_command,
 )
 from handlers.link import (
     ask_link,
@@ -110,7 +109,7 @@ def main():
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("admin", admin_panel))
-    app.add_handler(CommandHandler("broadcast", broadcast_command))
+
     app.add_handler(
         MessageHandler(filters.PHOTO, receive_screenshot)
     )

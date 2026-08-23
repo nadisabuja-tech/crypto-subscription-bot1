@@ -1,8 +1,11 @@
+from datetime import datetime, timedelta
+
 from telegram import Update
 from telegram.ext import ContextTypes
+
 from config import ADMIN_ID
 from database import cursor, conn
-from datetime import datetime, timedelta
+from services.notify import broadcast
 
 
 async def admin_panel(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -24,7 +27,8 @@ async def admin_panel(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"👥 Total Users: {total_users}\n"
         f"✅ Active Users: {active_users}\n"
         f"❌ Inactive Users: {inactive_users}\n\n"
-        "Use the payment buttons to approve or reject payments."
+        "Commands:\n"
+        "/broadcast Your Message"
     )
 
 
@@ -69,3 +73,27 @@ async def admin_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.edit_message_caption(
             caption=query.message.caption + "\n\n❌ REJECTED"
         )
+
+
+async def broadcast_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.effective_user.id != ADMIN_ID:
+        return
+
+    if not context.args:
+        await update.message.reply_text(
+            "Usage:\n/broadcast Your message"
+        )
+        return
+
+    message = " ".join(context.args)
+
+    sent, failed = await broadcast(
+        context.bot,
+        message,
+    )
+
+    await update.message.reply_text(
+        f"✅ Broadcast Complete\n\n"
+        f"Sent: {sent}\n"
+        f"Failed: {failed}"
+    )
